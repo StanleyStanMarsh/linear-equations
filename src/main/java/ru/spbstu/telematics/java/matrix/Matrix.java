@@ -7,7 +7,7 @@ public class Matrix implements MatrixInterface
 {
     private ArrayList<ArrayList<Double>> matrix;
 
-    public Matrix(int numRows, int numCols) 
+    public Matrix(Integer numRows, Integer numCols) 
     {
         matrix = new ArrayList<>(numRows);
         for (int i = 0; i < numRows; i++)
