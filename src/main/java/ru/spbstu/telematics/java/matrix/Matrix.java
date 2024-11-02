@@ -1,6 +1,7 @@
 package ru.spbstu.telematics.java.matrix;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Matrix implements MatrixInterface 
 {
@@ -8,39 +9,39 @@ public class Matrix implements MatrixInterface
 
     public Matrix(int numRows, int numCols) 
     {
-        data = new ArrayList<>(numRows);
+        matrix = new ArrayList<>(numRows);
         for (int i = 0; i < numRows; i++)
         {
-            List<Double> row = new ArrayList<>(numCols);
+            ArrayList<Double> row = new ArrayList<>(numCols);
             for (int j = 0; j < numCols; j++) 
             {
                 row.add(0.0);
             }
-            data.add(row);
+            matrix.add(row);
         }
     }
 
     public Double getElement(Integer row, Integer col) 
     {
-        if (row >= 0 && row < data.size() && col >= 0 && col < data.get(row).size()) 
+        if (row >= 0 && row < matrix.size() && col >= 0 && col < matrix.get(row).size()) 
         {
-            return data.get(row).get(col);
+            return matrix.get(row).get(col);
         } 
         else 
         {
-            throw new IndexOutOfBoundsException("Неверные индексы строки или столбца");
+            throw new IndexOutOfBoundsException("Wrong row or column index");
         }
     }
 
     public void setElement(Integer row, Integer col, Double value)
     {
-        if (row >= 0 && row < data.size() && col >= 0 && col < data.get(row).size())
+        if (row >= 0 && row < matrix.size() && col >= 0 && col < matrix.get(row).size())
         {
-            data.get(row).set(col, value);
+            matrix.get(row).set(col, value);
         } 
         else
         {
-            throw new IndexOutOfBoundsException("Неверные индексы строки или столбца");
+            throw new IndexOutOfBoundsException("Wrong row or column index");
         }
     }
 
@@ -59,22 +60,51 @@ public class Matrix implements MatrixInterface
 
     public ArrayList<Double> getColumn(Integer index)
     {
-        return new ArrayList<Double>();
+        ArrayList<Double> column = new ArrayList<>();
+        for (List<Double> row : matrix) 
+        {
+            if (index < row.size()) 
+            {
+                column.add(row.get(index));
+            } 
+            else
+            {
+                throw new IndexOutOfBoundsException("Column index out of bounds: " + index);
+            }
+        }
+        return column;
     }
 
     public ArrayList<Double> getRow(Integer index)
     {
-        return new ArrayList<Double>();
+        if (index < matrix.size()) 
+        {
+            return new ArrayList<>(matrix.get(index));
+        } 
+        else 
+        {
+            throw new IndexOutOfBoundsException("Row index out of bounds: " + index);
+        }
     }
 
-    public MatrixInterface transpose()
+    public MatrixInterface transpose() 
     {
-        return new SqMatrix(this.size);
+        MatrixInterface transposedMatrix = new Matrix(this.getColumnCount(), this.getRowCount());
+
+        for (int i = 0; i < this.getRowCount(); i++) 
+        {
+            for (int j = 0; j < this.getColumnCount(); j++) 
+            {
+                transposedMatrix.setElement(Integer.valueOf(j), Integer.valueOf(i), this.getElement(i, j));
+            }
+        }
+
+        return transposedMatrix;
     }
 
     public void printMatrix() 
     {
-        for (List<Double> row : data) 
+        for (List<Double> row : matrix) 
         {
             for (Double value : row) 
             {

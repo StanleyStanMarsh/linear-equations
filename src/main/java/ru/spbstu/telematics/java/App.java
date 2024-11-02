@@ -1,6 +1,6 @@
 package ru.spbstu.telematics.java;
 
-import ru.spbstu.telematics.java.matrix.SqMatrix;
+import ru.spbstu.telematics.java.matrix.Matrix;
 
 /**
  * Hello world!
@@ -10,6 +10,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        SqMatrix m = new SqMatrix(5);
+        Matrix m = new Matrix(3, 5);
+        m.transpose().printMatrix();
     }
 }
