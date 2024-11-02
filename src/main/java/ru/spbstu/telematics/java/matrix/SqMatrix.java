@@ -1,6 +1,9 @@
 
 package ru.spbstu.telematics.java.matrix;
 
+import java.util.ArrayList;
+import ru.spbstu.telematics.java.util.Pair;
+
 public class SqMatrix extends Matrix 
 {
 
@@ -19,33 +22,5 @@ public class SqMatrix extends Matrix
                     );
             }
         }
-    }
-
-    public SqMatrix toTriangular()
-    {
-        SqMatrix copy = new SqMatrix(this);
-        for (int k = 1; k < copy.getRowCount(); k++)
-        {
-            for (int j = k; j < copy.getColumnCount(); j++)
-            {
-                if (copy.getElement(Integer.valueOf(k - 1), Integer.valueOf(k - 1)) == 0)
-                {
-                    break;
-                }
-                Double m = Double.valueOf(
-                    copy.getElement(Integer.valueOf(j), Integer.valueOf(k - 1)) /
-                    copy.getElement(Integer.valueOf(k - 1), Integer.valueOf(k - 1))
-                    );
-                for (int i = 0; i < copy.getRowCount(); i++)
-                {
-                    copy.setElement(
-                        Integer.valueOf(j), Integer.valueOf(i),
-                        copy.getElement(Integer.valueOf(j), Integer.valueOf(i)) - 
-                        m * copy.getElement(Integer.valueOf(k - 1), Integer.valueOf(i))
-                        );
-                }
-            }
-        }
-        return copy;
     }
 }
