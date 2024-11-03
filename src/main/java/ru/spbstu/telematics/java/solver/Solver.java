@@ -3,6 +3,7 @@ package ru.spbstu.telematics.java.solver;
 import java.util.ArrayList;
 import java.lang.Math;
 import ru.spbstu.telematics.java.matrix.Matrix;
+import ru.spbstu.telematics.java.exeptions.*;
 
 public class Solver 
 {
@@ -13,8 +14,11 @@ public class Solver
         matrix.setRow(row2, tempRow);
     }
 
-    public static Matrix toRowEchelonForm(Matrix matrix) 
+    public static Matrix toRowEchelonForm(Matrix matrix) throws WrongCoefficientsMatrixException
     {
+        if (matrix.getRowCount() + 1 != matrix.getColumnCount())
+            throw new WrongCoefficientsMatrixException("The given matrix is not augmented coefficient matrix");
+
         Matrix c_matrix = new Matrix(matrix);
         Integer n = c_matrix.getRowCount();
         for (int k = 0; k < n; k++)
@@ -57,4 +61,6 @@ public class Solver
 
         return c_matrix;
     }
+
+    
 }
