@@ -13,7 +13,7 @@ public interface MatrixInterface
      * 
      * @param row: The row index of the element.
      * @param col: The column index of the element.
-     * @return: Double value of the element at the specified position.
+     * @return Double value of the element at the specified position.
      */
     Double getElement(Integer row, Integer col);
 
@@ -28,14 +28,14 @@ public interface MatrixInterface
     /**
      * Provides the number of rows in the matrix.
      * 
-     * @return: Integer representing the total number of rows.
+     * @return Integer representing the total number of rows.
      */
     Integer getRowCount();
 
     /**
      * Provides the number of columns in the matrix.
      * 
-     * @return: Integer representing the total number of columns.
+     * @return Integer representing the total number of columns.
      */
     Integer getColumnCount();
 
@@ -43,7 +43,7 @@ public interface MatrixInterface
      * Retrieves all elements from the specified column.
      * 
      * @param index: The index of the column.
-     * @return: ArrayList<Double> containing elements from the specified column.
+     * @return ArrayList<Double> containing elements from the specified column.
      */
     ArrayList<Double> getColumn(Integer index);
 
@@ -51,14 +51,14 @@ public interface MatrixInterface
      * Retrieves all elements from the specified row.
      * 
      * @param index: The index of the row.
-     * @return: ArrayList<Double> containing elements from the specified row.
+     * @return ArrayList<Double> containing elements from the specified row.
      */
     ArrayList<Double> getRow(Integer index);
 
     /**
      * Creates a new matrix that is the transpose of the current matrix.
      * 
-     * @return: MatrixInterface representing the transpose of the current matrix.
+     * @return MatrixInterface representing the transpose of the current matrix.
      */
     MatrixInterface transpose();
 
