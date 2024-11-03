@@ -1,6 +1,10 @@
 package ru.spbstu.telematics.java;
 
-import ru.spbstu.telematics.java.matrix.SqMatrix;
+import java.util.ArrayList;
+import ru.spbstu.telematics.java.matrix.Matrix;
+import ru.spbstu.telematics.java.solver.Solver;
+import ru.spbstu.telematics.java.exceptions.*;
+import ru.spbstu.telematics.java.solver.EquationInput;
 
 /**
  * Hello world!
@@ -10,19 +14,29 @@ public class App
 {
     public static void main( String[] args )
     {
-        SqMatrix originalMatrix = new SqMatrix(3);
-        originalMatrix.setElement(0, 0, 1.0);
-        originalMatrix.setElement(0, 1, 2.0);
-        originalMatrix.setElement(0, 2, 3.0);
-        originalMatrix.setElement(1, 0, 4.0);
-        originalMatrix.setElement(1, 1, 5.0);
-        originalMatrix.setElement(1, 2, 6.0);
-        originalMatrix.setElement(2, 0, 7.0);
-        originalMatrix.setElement(2, 1, 8.0);
-        originalMatrix.setElement(2, 2, 9.0);
-        System.out.println("Original matrix:");
-        originalMatrix.printMatrix();
-        System.out.println("Triangular matrix:");
-        originalMatrix.toTriangular().printMatrix();
+        Matrix originalMatrix;
+        ArrayList ans;
+        
+        try
+        {
+            originalMatrix = EquationInput.readEquationsToMatrix();
+
+            System.out.println("Original matrix:");
+            originalMatrix.printMatrix();
+            System.out.println("Triangular matrix:");
+            
+
+            Solver.toRowEchelonForm(originalMatrix).printMatrix();
+            ans = Solver.solve(originalMatrix);
+            Solver.printAnswer(ans);
+        }
+        catch (WrongCoefficientsMatrixException e)
+        {
+            System.out.println("Invalid input matrix: " + e.getMessage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Invalid input matrix: " + e.getMessage());
+        }
     }
 }
