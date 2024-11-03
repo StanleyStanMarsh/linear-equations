@@ -132,7 +132,7 @@ public class Matrix implements MatrixInterface
         {
             for (Double value : row) 
             {
-                System.out.print(value + " ");
+                System.out.printf("%10.2f ", value);
             }
             System.out.println();
         }
