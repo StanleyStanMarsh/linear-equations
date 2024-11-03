@@ -14,12 +14,12 @@ public class Solver
         matrix.setRow(row2, tempRow);
     }
 
-    public static Matrix toRowEchelonForm(Matrix matrix) throws WrongCoefficientsMatrixException
+    public static Matrix toRowEchelonForm(Matrix augmented_matrix) throws WrongCoefficientsMatrixException
     {
-        if (matrix.getRowCount() + 1 != matrix.getColumnCount())
+        if (augmented_matrix.getRowCount() + 1 != augmented_matrix.getColumnCount())
             throw new WrongCoefficientsMatrixException("The given matrix is not augmented coefficient matrix");
 
-        Matrix c_matrix = new Matrix(matrix);
+        Matrix c_matrix = new Matrix(augmented_matrix);
         Integer n = c_matrix.getRowCount();
         for (int k = 0; k < n; k++)
         {
@@ -62,5 +62,11 @@ public class Solver
         return c_matrix;
     }
 
-    
+    private static boolean ifSingular(Matrix augmented_matrix)
+    {
+        for (int i = 0; i < augmented_matrix.getRowCount(); i++)
+            if (augmented_matrix.getElement(Integer.valueOf(i), Integer.valueOf(i)) == 0)
+                return true;
+        return false;
+    }
 }
