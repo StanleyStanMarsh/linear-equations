@@ -1,9 +1,10 @@
 package ru.spbstu.telematics.java.solver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.lang.Math;
 import ru.spbstu.telematics.java.matrix.Matrix;
-import ru.spbstu.telematics.java.exeptions.*;
+import ru.spbstu.telematics.java.exceptions.*;
 
 public class Solver 
 {
@@ -62,11 +63,80 @@ public class Solver
         return c_matrix;
     }
 
-    private static boolean ifSingular(Matrix augmented_matrix)
+    private static Integer ifSingular(Matrix augmented_matrix)
     {
         for (int i = 0; i < augmented_matrix.getRowCount(); i++)
             if (augmented_matrix.getElement(Integer.valueOf(i), Integer.valueOf(i)) == 0)
-                return true;
-        return false;
+                return Integer.valueOf(i);
+        return -1;
+    }
+
+    public static ArrayList<Double> solve(Matrix augmented_matrix) throws WrongCoefficientsMatrixException
+    {
+         Matrix c_matrix = Solver.toRowEchelonForm(augmented_matrix);
+        Integer n_col = c_matrix.getColumnCount();
+        Integer n_row = c_matrix.getRowCount();
+
+        Integer ind = Solver.ifSingular(c_matrix);
+
+        if (ind != -1)
+        {
+            // return infinitely many solutions
+            if (c_matrix.getElement(Integer.valueOf(ind), Integer.valueOf(n_col - 1)) == 0.0)
+                return new ArrayList<>(Collections.nCopies(n_row.intValue(), Double.valueOf(Double.POSITIVE_INFINITY)));
+            // inconsistent system
+            return new ArrayList<Double>();
+        }
+
+        ArrayList<Double> answer = new ArrayList<Double>(Collections.nCopies(n_row.intValue(), Double.valueOf(0.0)));
+
+        for (int i = n_row - 1; i >= 0; i--)
+        {
+            answer.set(i, c_matrix.getElement(i, n_row));
+        
+            for (int j = i + 1; j < n_col - 1; j++) 
+            {
+                /* subtract all the lhs values
+                        * except the coefficient of the variable
+                        * whose value is being calculated */
+                Double middle_res_i = answer.get(i);
+                Double middle_res_j = answer.get(j);
+                answer.set(
+                    i, 
+                    Double.valueOf(middle_res_i.doubleValue() - (c_matrix.getElement(i, j).doubleValue()) * middle_res_j.doubleValue())
+                    );
+            }
+        
+            /* divide the RHS by the coefficient of the
+                    unknown being calculated */
+            Double dividend = answer.get(i);
+            answer.set(i, dividend.doubleValue() / c_matrix.getElement(i, i).doubleValue());
+        }
+
+
+        return answer;
+    }
+
+    public static void printAnswer(ArrayList<Double> answer)
+    {
+        if (answer.isEmpty()) 
+        {
+            System.out.println("System does not have solutions.");
+            return;
+        }
+
+        for (int i = 0; i < answer.size(); i++) 
+        {
+            Double value = answer.get(i);
+            if (value.equals(Double.POSITIVE_INFINITY)) 
+            {
+                System.out.println("The system has infintely many solutions.");
+                return;
+            }
+            else 
+            {
+                System.out.printf("Variable x%d = %.4f\n", i + 1, value);
+            }
+        }
     }
 }
