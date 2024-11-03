@@ -4,8 +4,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import ru.spbstu.telematics.java.matrix.Matrix;
 
+/**
+ * The EquationInput class provides functionality to read a system of linear equations from user input and 
+ * convert it into an augmented matrix representation.
+ */
 public class EquationInput
 {
+    /**
+     * Reads a system of linear equations from the console and transforms it into a matrix form 
+     * suitable for augmented matrix operations. It prompts the user for the number of equations and 
+     * variables, and then for the coefficients and constants for each equation.
+     * 
+     * @return The augmented matrix representation of the system of equations.
+     * @throws IllegalArgumentException if the number of coefficients entered by the user 
+     * does not match the expected number for an equation.
+     */
     public static Matrix readEquationsToMatrix() throws IllegalArgumentException
     {
         Scanner scanner = new Scanner(System.in);
@@ -18,7 +31,8 @@ public class EquationInput
 
         Matrix matrix = new Matrix(numRows, numCols + 1);
 
-        scanner.nextLine(); // Очистка буфера
+        // clear buufer
+        scanner.nextLine(); 
 
         for (int i = 0; i < numRows; i++)
         {
@@ -44,7 +58,8 @@ public class EquationInput
                 catch (NumberFormatException e) 
                 {
                     System.out.println("Wrong: enter real numbers.");
-                    j--; // Повторите ввод для этой переменной
+                    // re-enter
+                    j--;
                 }
             }
         }
