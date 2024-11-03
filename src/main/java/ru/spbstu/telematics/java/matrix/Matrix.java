@@ -21,7 +21,19 @@ public class Matrix implements MatrixInterface
         }
     }
 
-    public Double getElement(Integer row, Integer col) 
+    public Matrix(Matrix original) {
+        this(original.getRowCount(), original.getColumnCount());
+        for (int i = 0; i < original.getRowCount(); i++) {
+            for (int j = 0; j < original.getColumnCount(); j++) {
+                this.setElement(
+                    Integer.valueOf(i), Integer.valueOf(j), 
+                    original.getElement(Integer.valueOf(i), Integer.valueOf(j))
+                    );
+            }
+        }
+    }
+
+    public Double getElement(Integer row, Integer col) throws IndexOutOfBoundsException
     {
         if (row >= 0 && row < matrix.size() && col >= 0 && col < matrix.get(row).size()) 
         {
@@ -33,7 +45,7 @@ public class Matrix implements MatrixInterface
         }
     }
 
-    public void setElement(Integer row, Integer col, Double value)
+    public void setElement(Integer row, Integer col, Double value) throws IndexOutOfBoundsException
     {
         if (row >= 0 && row < matrix.size() && col >= 0 && col < matrix.get(row).size())
         {
@@ -58,7 +70,7 @@ public class Matrix implements MatrixInterface
         return matrix.get(0).size();
     }
 
-    public ArrayList<Double> getColumn(Integer index)
+    public ArrayList<Double> getColumn(Integer index) throws IndexOutOfBoundsException
     {
         ArrayList<Double> column = new ArrayList<>();
         for (List<Double> row : matrix) 
@@ -75,7 +87,7 @@ public class Matrix implements MatrixInterface
         return column;
     }
 
-    public ArrayList<Double> getRow(Integer index)
+    public ArrayList<Double> getRow(Integer index) throws IndexOutOfBoundsException
     {
         if (index < matrix.size()) 
         {
@@ -84,6 +96,18 @@ public class Matrix implements MatrixInterface
         else 
         {
             throw new IndexOutOfBoundsException("Row index out of bounds: " + index);
+        }
+    }
+
+    public void setRow(Integer index, ArrayList<Double> row) throws IndexOutOfBoundsException
+    {
+        if (row.size() != this.getColumnCount())
+        {
+            throw new IndexOutOfBoundsException("Wrong new row size");
+        }
+        for (int j = 0; j < this.getColumnCount(); j++)
+        {
+            this.setElement(index, j, row.get(j));
         }
     }
 

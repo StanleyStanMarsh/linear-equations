@@ -2,7 +2,6 @@
 package ru.spbstu.telematics.java.matrix;
 
 import java.util.ArrayList;
-import ru.spbstu.telematics.java.util.Pair;
 
 public class SqMatrix extends Matrix 
 {
